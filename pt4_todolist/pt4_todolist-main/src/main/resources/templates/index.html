@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div id="errormessages" th:if="${errorMessage}" class="bg-red-100 text-red-700 p-5 rounded-lg shadow-md mx-20 mt-5 mb-2.5" th:text="${errorMessage}"></div>
+    <form id="crear_tasca" th:action="@{/tasques}" method="post" class="bg-white p-6 rounded shadow-md mx-20 mt-5">
+        <h1 class="text-blue-500 text-center mt-5 text-2xl">Gestor de tasques</h1>
+        <label for="descripcio" class="block mb-2">Introdueix una descripció per la tasca:</label>
+        <input type="text" id="descripcio" name="descripcio" class="w-full p-2 border border-gray-300 rounded-md">
+        <button type="submit" class="bg-blue-500 text-white border-none p-2 rounded-md cursor-pointer hover:bg-blue-600 mt-4">Crear tasca</button>
+        <a th:href="@{/tasques}" class="block text-blue-500 text-center mt-5 hover:underline">Veure tasques</a>
+    </form>
+</body>
+</html>

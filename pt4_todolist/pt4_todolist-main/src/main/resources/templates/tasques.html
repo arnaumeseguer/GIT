@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Llista de Tasques</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <h1 class="text-blue-500 text-center mt-5 text-2xl">Llista de Tasques</h1>
+    <div id="errormessages" th:if="${errorMessage}"
+        class="bg-red-100 text-red-700 p-5 rounded-lg shadow-md mx-20 mt-5 mb-2.5" th:text="${errorMessage}"></div>
+
+    <section class="container px-4 mx-auto">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <div>
+                <div class="flex items-center gap-x-3">
+                    <h2 class="text-lg font-medium">Nombre total de tasques: </h2>
+
+                    <span th:text="${nombreTasques}" class="px-3 py-1 text-blue-600 bg-blue-100 rounded-full">240
+                        vendors</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-6 md:flex md:items-center md:justify-between">
+            <form th:action="@{/tasques}" method="get">
+
+                <div class="relative flex items-center mt-4 md:mt-0">
+                    <label for="filtreDescripcio" class="mr-2">Filtrar per descripció:</label>
+
+                    <input type="text" id="filtreDescripcio" name="filtreDescripcio" placeholder="Cerca"
+                        class="bg-white p-2 border border-gray-300 rounded-md">
+
+                    <button type="submit"
+                        class="bg-blue-500 text-white border-none p-2 rounded-md cursor-pointer hover:bg-blue-600 ml-2">
+                        Filtrar</button>
+
+                </div>
+            </form>
+
+        </div>
+
+        <div class="flex flex-col mt-6 ">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="py-3.5 px-4 font-normal text-left">
+                                        Descripció
+                                    </th>
+
+                                    <th scope="col" class="px-12 py-3.5 font-normal text-left">
+                                        Estat
+                                    </th>
+
+                                    <th scope="col" class="px-4 py-3.5 font-normal text-left">
+                                        Accions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr th:each="tasca : ${tasques}">
+                                    <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                                        <div>
+                                            <h2 th:text="${tasca.descripcio}" class="font-medium text-gray-800"></h2>
+                                        </div>
+                                    </td>
+                                    <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
+                                        <div th:text="${tasca.completada ? 'Completada' : 'Pendent'}"
+                                            class="inline px-3 py-1 text-sm font-normal rounded-full"
+                                            th:classappend="${tasca.completada ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'}">
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                        <div class="flex space-x-2">
+                                            <form th:action="@{/tasques/update/{id}/completar(id=${tasca.id})}"
+                                                method="post">
+                                                <button type="submit"
+                                                    class="bg-blue-500 text-white border-none p-2 rounded-md cursor-pointer hover:bg-blue-600">
+                                                    Marcar Completada
+                                                </button>
+                                            </form>
+                                            <form th:action="@{/tasques/delete/{id}(id=${tasca.id})}" method="post">
+                                                <button type="submit"
+                                                    class="bg-red-500 text-white border-none p-2 rounded-md cursor-pointer hover:bg-red-600">
+                                                    Eliminar</button>
+                                            </form>
+                                            <form th:action="@{/tasques/edit/{id}(id=${tasca.id})}" method="get">
+                                                <button type="submit"
+                                                    class="bg-yellow-500 text-white border-none p-2 rounded-md cursor-pointer hover:bg-yellow-600">
+                                                    Editar</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <!-- <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                        <button
+                                            class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                                            </svg>
+                                        </button>
+                                    </td> -->
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <div>
+        <a th:href="@{/}" class="block text-blue-500 text-center mt-5 hover:underline">Tornar a l'inici</a>
+    </div>
+</body>
+
+</html>
